@@ -1,0 +1,71 @@
+import os
+import sys
+import re
+import chardet
+from WordSegmentation import *
+from database import create_app
+
+
+
+path = "DATA-UNICODE"
+
+def preprocess():
+  writeFileList()
+  stno2Txt()
+  segmentation()
+
+def GetFileList(srcDir, fileList):
+  # Get all files path into fileList
+  newDir = srcDir
+  if os.path.isfile(srcDir):
+    fileList.append(srcDir)
+  elif os.path.isdir(srcDir):
+    for s in os.listdir(srcDir):
+      newDir = os.path.join(srcDir, s)
+      GetFileList(newDir, fileList)
+  return fileList
+
+def writeFileList():
+  output = sys.stdout
+  outputFile = open('paths.txt', 'w')
+  sys.stdout = outputFile
+  fileList = GetFileList(path, [])
+
+  for route in fileList:
+    print(route)
+
+  outputFile.close()
+  sys.stdout = output
+
+def stno2Txt():
+  # convert stno to txt
+  for line in open('paths.txt'):
+    # get file name 
+    line1 = line[0:12]
+    line2 = line[13:16]
+    line3 = line[17:-1]
+    line4 = line[17:-6]
+    line = line1 + "/" + line2 + "/" + line3
+    
+    path = line
+    
+    fb = open(path, 'rb')
+    data = fb.read()
+    encoding = chardet.detect(data)['encoding']
+    page = open(line, 'r', encoding=encoding, errors='ignore').read()
+    dr = re.compile(r'<[^>]>', re.S)
+    dd = dr.sub('', page)
+    
+
+    fname = 'directory' + '/' + line4 + '.txt' # file path
+    f = open(fname, 'w+', encoding=encoding)
+    f.write(dd)
+
+
+app = create_app()
+with app.app_context():
+  print('in with')
+  db.app = app
+  db.drop_all()
+  db.create_all()
+  preprocess()
