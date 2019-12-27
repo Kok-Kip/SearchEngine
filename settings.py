@@ -1,3 +1,4 @@
+# DB setting
 DIALECT = 'mysql'
 USERNAME = 'root'
 PASSWORD = '******'
