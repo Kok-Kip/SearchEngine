@@ -1,7 +1,7 @@
 import jieba
 import re
 import chardet
-from database import db, create_app
+from database import db
 from database.document import *
 from database.word import *
 from database.wordDocRef import *

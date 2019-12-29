@@ -1,9 +1,7 @@
-from database import create_app, db
+from app import app
 from flask import jsonify, request
 import math
 import jieba
-
-app = create_app()
 
 
 @app.route('/search', methods=['POST'])
