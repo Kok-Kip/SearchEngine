@@ -61,17 +61,17 @@ def segmentation():
         for word in segListSanitized:
             # c.execute('select list from word where term=?', (word,))
             # result = c.fetchall()
-            is_exist, word_id = isWordExisted(word)
+            is_exist, word_id = is_word_existed(word)
             if not is_exist:
                 # add record in Word
                 word_id = create_word(word)
         
             # add record in WordDocRef
-            is_exist, ref = isWordDocRefExisted(word_id, document_id)
+            is_exist, ref = is_word_doc_ref_existed(word_id, document_id)
             if not is_exist:
-                create_wordDocRef(word_id, document_id)
+                create_word_doc_ref(word_id, document_id)
             else:
-                update_wordDocRef(word_id, document_id, ref.frequency+1)
+                update_word_doc_ref(word_id, document_id, ref.frequency+1)
         ''' 
         if len(result) == 0:
             doclist = str(num)

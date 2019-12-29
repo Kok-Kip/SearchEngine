@@ -1,4 +1,7 @@
 from app import app
+from database.document import get_document_by_id, get_document_number
+from database.word import get_word_by_term
+from database.wordDocRef import get_word_doc_ref_by_word_id
 from flask import jsonify, request
 import math
 import jieba
@@ -20,7 +23,7 @@ def get_pertinent_doc_by_key(query):
 
 def get_score_of_document(seg):
     # score = tfidf + bm25 + word-embedding
-    # tfidf = get_score_tfidf(seg)
+    tfidf = get_score_tfidf(seg)
     bm25 = get_score_bm25(seg)
     emb = get_score_embedding(seg)
 
@@ -49,23 +52,24 @@ def get_score_bm25(seg):
 
 
 def get_score_embedding(seg):
-    pass
+    # TODO
+    return 0
 
 
 def calculate_tfidf(term):
     score = {}
-    N = getDocumentNumber()
+    N = get_document_number()
 
     # 1. find all relevant documents
-    word = getWordByTerm(term)
+    word = get_word_by_term(term)
     word_id = word.id
 
-    wordDocRefs = getWordDocRefByWordID(word_id)
+    wordDocRefs = get_word_doc_ref_by_word_id(word_id)
     n = len(wordDocRefs)
     idf = math.log(N / n)
 
     for ref in wordDocRefs:
-        document = getDocumentByID(ref.document_id)
+        document = get_document_by_id(ref.document_id)
         score[ref.document_id] = (ref.frequency / document.length) * idf
     return score
 
@@ -85,10 +89,10 @@ avgdl = 50 # Document Avarage Length
 def calculate_R(term):
     score = {}
     # 1. find all relevant documents
-    word = getWordByTerm(term)
+    word = get_word_by_term(term)
     word_id = word.id
 
-    wordDocRefs = getWordDocRefByWordID(word_id)
+    wordDocRefs = get_word_doc_ref_by_word_id(word_id)
     n = len(wordDocRefs)
 
     for ref in wordDocRefs:
