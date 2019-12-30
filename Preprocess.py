@@ -3,8 +3,7 @@ import sys
 import re
 import chardet
 from WordSegmentation import *
-from database import create_app
-
+from app import app
 
 
 path = "DATA-UNICODE"
@@ -62,7 +61,6 @@ def stno2Txt():
     f.write(dd)
 
 
-app = create_app()
 with app.app_context():
   print('in with')
   db.app = app

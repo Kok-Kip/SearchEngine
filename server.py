@@ -1,107 +1,122 @@
-from database import create_app, db
+from app import app
+from database.document import get_document_by_id, get_document_number
+from database.word import get_word_by_term
+from database.wordDocRef import get_word_doc_ref_by_word_id
+from flask import jsonify, request
 import math
 import jieba
 
-app = create_app()
 
 @app.route('/search', methods=['POST'])
 def search():
-  req = request.get_json()
+    req = request.get_json()
 
-  # get_pertinent_doc_by_key(req['key'])
+    # get_pertinent_doc_by_key(req['key'])
 
-  return jsonify(message='ok')
+    return jsonify(message='ok')
+
 
 def get_pertinent_doc_by_key(query):
-  seg = jieba.cut_for_search(query)
-  score = get_score_of_document(seg)
+    seg = jieba.cut_for_search(query)
+    score = get_score_of_document(seg)
+
 
 def get_score_of_document(seg):
-  # score = tfidf + bm25 + word-embedding
-  tfidf = get_score_tfidf(seg)
-  bm25 = get_score_bm25(seg)
-  emb = get_score_embedding(seg)
+    # score = tfidf + bm25 + word-embedding
+    tfidf = get_score_tfidf(seg)
+    bm25 = get_score_bm25(seg)
+    emb = get_score_embedding(seg)
 
-  w1 = 0.3
-  w2 = 0.3
-  w3 = 0.4
-  score = w1 * tfidf + w2 * bm25 + w3 * emb
-  return score
+    w1 = 0.3
+    w2 = 0.3
+    w3 = 0.4
+    score = w1 * tfidf + w2 * bm25 + w3 * emb
+    return score
+
 
 def get_score_tfidf(seg):
-  score_tfidf = {}
-  for term in seg:
-    score_temp = calculate_tfidf(term)
-    merge_dict(score_temp, score_tfidf)
-  return score_tfidf
+    score_tfidf = {}
+    for term in seg:
+        score_temp = calculate_tfidf(term)
+        # TODO
+        # merge_dict(score_temp, score_tfidf)
+    return score_tfidf
+
 
 def get_score_bm25(seg):
-  score_bm25 = {}
-  for term in seg:
-    score_temp = calculate_bm25(term)
-    add_dict(score_temp, score_bm25)
-  return score_bm25
+    score_bm25 = {}
+    for term in seg:
+        score_temp = calculate_bm25(term)
+        add_dict(score_temp, score_bm25)
+    return score_bm25
+
 
 def get_score_embedding(seg):
+    # TODO
+    return 0
 
 
 def calculate_tfidf(term):
-  score = {}
-  N = getDocumentNumber()
+    score = {}
+    N = get_document_number()
 
-  # 1. find all relevant documents
-  word = getWordByTerm(term)
-  word_id = word.id
+    # 1. find all relevant documents
+    word = get_word_by_term(term)
+    word_id = word.id
 
-  wordDocRefs = getWordDocRefByWordID(word_id)
-  n = len(wordDocRefs)
-  idf = math.log(N / n)
+    wordDocRefs = get_word_doc_ref_by_word_id(word_id)
+    n = len(wordDocRefs)
+    idf = math.log(N / n)
 
-  for ref in wordDocRefs:
-    document = getDocumentByID(ref.document_id)
-    score[ref.document_id] = (ref.frequency / document.length) * idf
+    for ref in wordDocRefs:
+        document = get_document_by_id(ref.document_id)
+        score[ref.document_id] = (ref.frequency / document.length) * idf
+    return score
 
-  return score
 
 def calculate_bm25(term):
-  tfidf = calculate_tfidf(term)
-  relativeness = calculate_R(term)
-  score = mul_dict(tfidf, relativeness)
-  return score
+    tfidf = calculate_tfidf(term)
+    relativeness = calculate_R(term)
+    score = mul_dict(tfidf, relativeness)
+    return score
+
 
 k1 = 2
 b = 0.75
 avgdl = 50 # Document Avarage Length
+
+
 def calculate_R(term):
-  score = {}
-  # 1. find all relevant documents
-  word = getWordByTerm(term)
-  word_id = word.id
+    score = {}
+    # 1. find all relevant documents
+    word = get_word_by_term(term)
+    word_id = word.id
 
-  wordDocRefs = getWordDocRefByWordID(word_id)
-  n = len(wordDocRefs)
+    wordDocRefs = get_word_doc_ref_by_word_id(word_id)
+    n = len(wordDocRefs)
 
-  for ref in wordDocRefs:
-    score[ref.document_id] = ref.frequency * (k1 + 1) / (ref.frequency + k1 * (1 - b + b * avgdl))
+    for ref in wordDocRefs:
+        score[ref.document_id] = ref.frequency * (k1 + 1) / (ref.frequency + k1 * (1 - b + b * avgdl))
+    return score
 
-  return score
 
 def add_dict(x, y):
-  for k, v in x.items():
-    if k in y.keys():
-      y[k] += v
-    else:
-      y[k] = v
+    for k, v in x.items():
+        if k in y.keys():
+            y[k] += v
+        else:
+            y[k] = v
+
 
 def mul_dict(x, y):
-  score = {}
-  for k, v in x.items():
-    if k in y.keys():
-      score[k] = v * y[k]
-    else:
-      print('mul_dict err')
+    score = {}
+    for k, v in x.items():
+        if k in y.keys():
+            score[k] = v * y[k]
+        else:
+            print('mul_dict err')
+    return score
 
-  return score
 
 if __name__ == '__main__':
-  app.run(debug=True)
+    app.run(debug=True)
