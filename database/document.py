@@ -15,9 +15,9 @@ def create_document(link, length):
     return document_id
 
 
-def get_document_by_id(document_id):
-    document = db.session.query(Document).filter_by(id=document_id).first()
-    return document
+def get_documents_by_ids(document_ids):
+    documents = db.session.query(Document).filter(Document.id.in_(document_ids)).all()
+    return documents
 
 
 def get_document_number():

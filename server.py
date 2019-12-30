@@ -1,5 +1,5 @@
 from app import app
-from database.document import get_document_by_id, get_document_number
+from database.document import get_documents_by_ids, get_document_number
 from database.word import get_word_by_term
 from database.wordDocRef import get_word_doc_ref_by_word_id
 from flask import jsonify, request
@@ -57,20 +57,23 @@ def get_score_embedding(seg):
 
 
 def calculate_tfidf(term):
-    score = {}
+    score = dict()
     N = get_document_number()
 
     # 1. find all relevant documents
     word = get_word_by_term(term)
     word_id = word.id
 
-    wordDocRefs = get_word_doc_ref_by_word_id(word_id)
-    n = len(wordDocRefs)
+    word_doc_refs = get_word_doc_ref_by_word_id(word_id)
+    n = len(word_doc_refs)
     idf = math.log(N / n)
 
-    for ref in wordDocRefs:
-        document = get_document_by_id(ref.document_id)
-        score[ref.document_id] = (ref.frequency / document.length) * idf
+    document_ids = [r.document_id for r in word_doc_refs]
+    documents = get_documents_by_ids(document_ids)
+    documents = {d.id: d for d in documents}
+
+    for ref in word_doc_refs:
+        score[ref.document_id] = (ref.frequency / documents[ref.document_id].length) * idf
     return score
 
 
