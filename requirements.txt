@@ -2,3 +2,4 @@ flask
 jieba
 chardet
 Flask-SQLAlchemy
+pytest
