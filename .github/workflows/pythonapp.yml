@@ -15,7 +15,7 @@ jobs:
         python-version: 3.7
     - name: should it be skipped?
       run: |
-        # Get CommitMsg
+        # Get Commit Message
         last_commit_log=$(git log -1 --pretty=format:"%s")
         echo "last commit log: $last_commit_log"
 
