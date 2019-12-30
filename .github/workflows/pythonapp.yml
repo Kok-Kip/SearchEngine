@@ -75,4 +75,4 @@ jobs:
       with:
         token: ${{secrets.CODECOV_TOKEN}}
         # Path to coverage file to upload
-        file: ./backend/test/unit/coverage/clover.xml
+        file: /home/runner/work/backend/test/unit/coverage/clover.xml
