@@ -1,3 +1,4 @@
+[![codecov](https://codecov.io/gh/Kok-Kip/backend/branch/master/graph/badge.svg)](https://codecov.io/gh/Kok-Kip/backend)
 # Mini Search Engine Backend
 
 ## Intro
