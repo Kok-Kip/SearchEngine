@@ -9,7 +9,7 @@ import jieba
 
 k1 = 2
 b = 0.75
-avgdl = 50  # Document Avarage Length
+avgdl = 50  # Document Average Length
 
 
 @app.route('/search', methods=['POST'])

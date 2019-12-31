@@ -2,7 +2,6 @@
 # coding=utf-8
 import pytest
 
-
 def test_app():
     assert 5 == 5
 

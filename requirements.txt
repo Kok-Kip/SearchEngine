@@ -3,3 +3,4 @@ jieba
 chardet
 Flask-SQLAlchemy
 pytest
+pytest-cov
