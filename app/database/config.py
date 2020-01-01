@@ -1,5 +1,5 @@
 # DB setting
-DIALECT = 'mysql'
+DIALECT = 'mysql+pymysql'
 USERNAME = 'root'
 PASSWORD = '******'
 HOST = '127.0.0.1'

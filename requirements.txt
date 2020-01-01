@@ -4,3 +4,4 @@ chardet
 Flask-SQLAlchemy
 pytest
 pytest-cov
+pymysql
