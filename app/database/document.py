@@ -1,5 +1,5 @@
-from database.models import Document
-from database import db
+from app.database.models import Document
+from app.database import db
 from typing import Dict
 
 

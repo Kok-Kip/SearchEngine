@@ -1,10 +1,10 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-
-app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql://root:******@127.0.0.1:3306/search_engine"
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
-db = SQLAlchemy(app)
+from app.database import db
+# app = Flask(__name__)
+# app.config["SQLALCHEMY_DATABASE_URI"] = "mysql://root:******@127.0.0.1:3306/search_engine"
+# app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
+# db = SQLAlchemy(app)
 
 
 # DB Entities

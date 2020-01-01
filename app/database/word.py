@@ -1,6 +1,5 @@
-from database.models import Word
-from database import db
-from sqlalchemy.sql import exists
+from app.database.models import Word
+from app.database import db
 
 
 def create_word(term):

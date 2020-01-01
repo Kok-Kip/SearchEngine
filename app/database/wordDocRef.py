@@ -1,5 +1,5 @@
-from database.models import WordDocRef
-from database import db
+from app.database.models import WordDocRef
+from app.database import db
 
 
 def create_word_doc_ref(word_id, document_id):
