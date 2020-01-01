@@ -16,7 +16,3 @@ def create_app(config=None):
     db.app = app
 
     return app
-
-
-if __name__ == '__main__':
-    app.run(debug=True)
