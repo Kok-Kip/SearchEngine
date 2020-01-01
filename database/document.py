@@ -1,5 +1,6 @@
 from database.models import Document
 from database import db
+from typing import Dict
 
 
 def create_document(link, length):
@@ -15,7 +16,7 @@ def create_document(link, length):
     return document_id
 
 
-def get_documents_by_ids(document_ids) -> dict[int, Document]:
+def get_documents_by_ids(document_ids) -> Dict[int, Document]:
     documents = db.session.query(Document).filter(Document.id.in_(document_ids)).all()
     return {d.id: d for d in documents}
 
