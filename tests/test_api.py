@@ -1,10 +1,12 @@
 #!/usr/bin/env python
 # coding=utf-8
-from tests.suite import BaseSuite
+from app import app
+import json
 
-class TestServer(BaseSuite):
-    def test_search(self):
-        rv = self.client.post('http://localhost:5000')
-        resp = rv.data
-        print(resp)
-        assert 1 == 1
+
+def test_search():
+    print('In test_search')
+    client = app.test_client()
+    rv = client.post('http://localhost:5000/search')
+    resp = json.loads(rv.data)
+    assert 'ok' == resp['message']
