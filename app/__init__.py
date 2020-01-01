@@ -3,6 +3,7 @@ from flask import jsonify
 
 app = create_app()
 
+# DO NOT move this line unless you know what you are doing
 from app.biz.doc_rank import get_one
 
 
