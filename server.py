@@ -12,13 +12,7 @@ b = 0.75
 avgdl = 50  # Document Average Length
 
 
-@app.route('/search', methods=['POST'])
-def search():
-    req = request.get_json()
 
-    # get_pertinent_doc_by_key(req['key'])
-
-    return jsonify(message='ok')
 
 
 def get_pertinent_doc_by_key(query):
