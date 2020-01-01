@@ -14,4 +14,4 @@ def test_search(client):
     client = app.test_client()
     rv = client.post('http://localhost:5000/search')
     resp = json.loads(rv.data)
-    assert 'okkk' == resp['message']
+    assert 'ok' == resp['message']
