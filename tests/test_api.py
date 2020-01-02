@@ -4,10 +4,12 @@ from app import app
 import json
 import pytest
 
+
 @pytest.fixture
 def client():
     test_client = app.test_client()
     yield test_client
+
 
 def test_search(client):
     print('In test_search')
