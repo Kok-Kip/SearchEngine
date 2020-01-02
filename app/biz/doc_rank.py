@@ -1,7 +1,6 @@
 from app.database.document import get_documents_by_ids, get_document_number
 from app.database.word import get_word_by_term
 from app.database.wordDocRef import get_word_doc_ref_by_word_id
-from collections import defaultdict
 import math
 import jieba
 
