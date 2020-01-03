@@ -28,7 +28,7 @@ def segmentation():
 
         # get stopwords dict
         stopwords = {}
-        fstop = open('stopwords_cn.txt', 'r', encoding='utf-8', errors='ignore')
+        fstop = open('data/stopwords_cn.txt', 'r', encoding='utf-8', errors='ignore')
         for w in fstop:
             stopwords[w.strip()] = w.strip()
         fstop.close()

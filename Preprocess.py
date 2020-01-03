@@ -6,7 +6,7 @@ from WordSegmentation import *
 from app import app
 
 
-path = "DATA-UNICODE"
+path = "data/DATA-UNICODE"
 
 def preprocess():
   writeFileList()
@@ -56,7 +56,7 @@ def stno2Txt():
     dd = dr.sub('', page)
     
 
-    fname = 'directory' + '/' + line4 + '.txt' # file path
+    fname = 'data/directory' + '/' + line4 + '.txt' # file path
     f = open(fname, 'w+', encoding=encoding)
     f.write(dd)
 
