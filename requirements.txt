@@ -5,3 +5,4 @@ Flask-SQLAlchemy
 pytest
 pytest-cov
 pymysql
+gensim
