@@ -32,8 +32,6 @@ This is the backend project of Mini Search Engine
    python server.py
    ```
 
-   
-
 ---
 
 ## Documents
