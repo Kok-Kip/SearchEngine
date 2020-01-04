@@ -1,5 +1,10 @@
-from app.database.models import Word
+from app.database.models import Word, WordDocRef
 from app.database import db
+from app.biz.embedding import bytes2Embedding
+
+from collections import defaultdict
+import logging
+import time
 
 
 def create_word(term, embedding):
@@ -25,3 +30,21 @@ def is_word_existed(term):
     if word is None:
         return False, -1
     return True, word.id
+
+
+def get_frequent_words(k: int):
+    logging.info(f'Starting to get the word refs at {time.asctime(time.localtime(time.time()))}')
+    word_refs = db.session.query(WordDocRef).order_by(WordDocRef.frequency.desc()).all()
+    logging.info(f'Finish getting the word refs at {time.asctime(time.localtime(time.time()))}')
+    words = defaultdict(list)
+    for ref in word_refs:
+        if len[words[ref.document_id]] != k:
+            words[ref.document_id].append(ref.word_id)
+
+    return words
+
+
+def get_words_embedding(word_ids):
+    words = db.session.query(Word).filter_by(id.in_(word_ids)).all()
+    res = {w.id: bytes2Embedding(w.embedding) for w in words}
+    return res
