@@ -6,9 +6,11 @@ from app.database.document import *
 from app.database.word import *
 from app.database.wordDocRef import *
 from app.database.models import *
+from app.biz.embedding import get_embedding, embedding2Bytes
 
 
 def segmentation():
+    missing_words = 0
     for line in open('paths.txt'):
         line = line[22: -5]
         # print(line)
@@ -54,21 +56,29 @@ def segmentation():
         # create document record
         document_id = create_document(path, len(segListSanitized))
 
-        # Word Table
+        # Create Word Table
         for word in segListSanitized:
             # c.execute('select list from word where term=?', (word,))
             # result = c.fetchall()
             is_exist, word_id = is_word_existed(word)
             if not is_exist:
+                # get word embedding
+                emb_np = get_embedding(word)
+
+                # calculate missing words from embedding dictionary
+                if emb_np is None:
+                    missing_words += 1
+
+                emb_bytes = embedding2Bytes(emb_np)
                 # add record in Word
-                word_id = create_word(word)
-        
+                word_id = create_word(word, emb_bytes)
+
             # add record in WordDocRef
             is_exist, ref = is_word_doc_ref_existed(word_id, document_id)
             if not is_exist:
                 create_word_doc_ref(word_id, document_id)
             else:
-                update_word_doc_ref(word_id, document_id, ref.frequency+1)
+                update_word_doc_ref(word_id, document_id, ref.frequency + 1)
         ''' 
         if len(result) == 0:
             doclist = str(num)
@@ -79,3 +89,4 @@ def segmentation():
             doclist += ' ' + str(num)
             c.execute('update word set list=? where term=?', (doclist, word))
         '''
+    print('missing words: ', missing_words)

@@ -2,9 +2,10 @@ from app.database.models import Word
 from app.database import db
 
 
-def create_word(term):
+def create_word(term, embedding):
     word = Word()
     word.term = term
+    word.embedding = embedding
 
     db.session.add(word)
     db.session.flush()
