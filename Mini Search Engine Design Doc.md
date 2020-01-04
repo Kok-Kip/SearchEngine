@@ -107,6 +107,24 @@ This is an offline step. We will segment all documents to construct a dictionary
 
 ---
 
+## Embedding
+
+We get embedding of every words when we construct our dictionary. There is a trade-off among speed, storage and accuracy. Out of efficiency, we are not going to use the whole dataset to construct an embedding model, so experiements should be conducted to find the optimal proportion of dataset.
+
+Dataset: 8, 000, 000
+
+Total Words: 9, 242
+
+| Dataset Usage | Missing Words | Missing Rate |
+| ------------- | ------------- | ------------ |
+| 100, 000      | 2695          | 29.16%       |
+| 200, 000      | 1843          | 19.94%       |
+|               |               |              |
+
+
+
+---
+
 ## Reference
 
 1. [text_factory Usage](https://www.cnblogs.com/lightwind/p/4499193.html)

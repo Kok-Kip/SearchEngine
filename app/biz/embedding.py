@@ -1,5 +1,5 @@
 from gensim.models import KeyedVectors
-
+import numpy as np
 path = './data/test.bin'
 
 model = KeyedVectors.load(path)
