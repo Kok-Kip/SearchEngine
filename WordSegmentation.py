@@ -1,21 +1,18 @@
 import jieba
 import re
 import chardet
-from database import db
-from database.document import *
-from database.word import *
-from database.wordDocRef import *
-from database.models import *
+from app.database import db
+from app.database.document import *
+from app.database.word import *
+from app.database.wordDocRef import *
+from app.database.models import *
 
 
 def segmentation():
-    # num = 0
     for line in open('paths.txt'):
-        path = line
-        # num += 1
-        line = line[17: -5]
+        line = line[22: -5]
         # print(line)
-        line = 'directory/' + line + 'txt'
+        line = 'data/directory/' + line + 'txt'
         path = line
         fb = open(path, 'rb')
         data = fb.read()

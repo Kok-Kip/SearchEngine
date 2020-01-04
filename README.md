@@ -3,7 +3,7 @@
 
 ## Intro
 
-This is the backend project of Mini Search Engine
+This is the backend project of Mini Search Engine.
 
 ## Environment
 

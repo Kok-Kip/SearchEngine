@@ -85,13 +85,13 @@ We build a connection between document and its link. Link could be file path or 
 
 ### Table Word
 
-| Attr | id   | term    |
-| ---- | ---- | ------- |
-| Type | int  | varchar |
+| Attr | id   | term    | embedding |
+| ---- | ---- | ------- | --------- |
+| Type | int  | varchar | blob      |
 
 We may save the word like a dictionary. Save Embeddings?
 
-### Table word_doc_ref
+### Table WordDocRef
 
 | Attr | id   | word_id     | document_id | frequency |
 | ---- | ---- | ----------- | ----------- | --------- |
