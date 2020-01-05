@@ -3,6 +3,7 @@ from app.database.word import get_word_by_term
 from app.database.wordDocRef import get_word_doc_ref_by_word_id
 import math
 import jieba
+from typing import Dict
 
 # const parameters for bm25
 k1 = 2
@@ -13,9 +14,21 @@ avgdl = 50  # Document Average Length
 def get_pertinent_doc_by_key(query):
     seg = jieba.cut_for_search(query)
     score = get_score_of_document(seg)
+    doc_ids = get_best_document_by_score(score, 10)
+    docs = get_documents_by_ids(doc_ids)
+    return docs
 
 
-def get_score_of_document(seg):
+def get_best_document_by_score(score, k: int):
+    items = score.items()
+    reverse_score = [[v[1], v[0]] for v in items]
+    reverse_score.sort(reverse=True)
+    sorted_score = reverse_score[:k]
+    document_ids = [s[1] for s in sorted_score]
+    return document_ids
+
+
+def get_score_of_document(seg) -> Dict[int, float]:
     # score = w1 * tfidf + w2 * bm25 + w3 * word-embedding
     w1 = 0.3
     w2 = 0.3
@@ -32,7 +45,7 @@ def get_score_of_document(seg):
     return bm25
 
 
-def get_score(seg, weight, score_type=True):
+def get_score(seg, weight, score_type=True) -> Dict[int, float]:
     # score_type 为真时用 tfidf 算法, 为假时用 bm25 算法
     score = dict()
     for term in seg:
@@ -41,7 +54,7 @@ def get_score(seg, weight, score_type=True):
     return score
 
 
-def calculate_score(term, weight, score_type=True):
+def calculate_score(term, weight, score_type=True) -> Dict[int, float]:
     score = dict()
     N = get_document_number()
 
