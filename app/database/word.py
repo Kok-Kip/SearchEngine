@@ -1,6 +1,5 @@
 from app.database.models import Word, WordDocRef
 from app.database import db
-from app.biz.embedding import bytes2Embedding
 
 from collections import defaultdict
 import logging
@@ -44,7 +43,7 @@ def get_frequent_words(k: int):
     return words
 
 
-def get_words_embedding(word_ids):
+def get_words_embedding_byte(word_ids):
     words = db.session.query(Word).filter_by(id.in_(word_ids)).all()
-    res = {w.id: bytes2Embedding(w.embedding) for w in words}
+    res = {w.id: w.embedding for w in words}
     return res
