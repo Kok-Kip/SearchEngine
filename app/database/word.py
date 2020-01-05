@@ -44,6 +44,6 @@ def get_frequent_words(k: int):
 
 
 def get_words_embedding_byte(word_ids):
-    words = db.session.query(Word).filter_by(id.in_(word_ids)).all()
+    words = db.session.query(Word).filter(Word.id.in_(word_ids) & Word.embedding.isnot(None)).all()
     res = {w.id: w.embedding for w in words}
     return res
