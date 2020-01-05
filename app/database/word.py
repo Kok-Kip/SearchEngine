@@ -5,6 +5,9 @@ from collections import defaultdict
 import logging
 import time
 
+# 设置 logging 重要性等级
+logging.getLogger().setLevel(logging.INFO)
+
 
 def create_word(term, embedding):
     word = Word()
