@@ -14,6 +14,6 @@ def client():
 def test_search(client):
     print('In test_search')
     client = app.test_client()
-    rv = client.post('http://localhost:5000/search')
+    rv = client.get('http://localhost:5000/search')
     resp = json.loads(rv.data)
     assert 'ok' == resp['message']
