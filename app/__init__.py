@@ -9,6 +9,12 @@ def search():
     # req = request.get_json()
     # get_pertinent_doc_by_key(req['key'])
 
+    res = make_fake_data()
+
+    return jsonify(message='ok', data=res)
+
+
+def make_fake_data():
     # 制造假数据
     res = list()
 
@@ -37,5 +43,4 @@ def search():
                         '2017中山大学“康乐杯”东校区冠军、四校总决赛季军 工作经历...'
     r4['url'] = 'https://leungyukshing.gitee.io/resume/'
     res.append(r4)
-
-    return jsonify(message='ok', data=res)
+    return res
