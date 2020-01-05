@@ -9,12 +9,12 @@ def search():
     # req = request.get_json()
     # get_pertinent_doc_by_key(req['key'])
 
-    res = make_fake_data()
+    res = make_test_data()
 
     return jsonify(message='ok', data=res)
 
 
-def make_fake_data():
+def make_test_data():
     # 制造假数据
     res = list()
 
