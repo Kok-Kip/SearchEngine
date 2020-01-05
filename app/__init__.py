@@ -1,13 +1,16 @@
 from app.app import create_app
-from flask import jsonify
+from flask import jsonify, request
 
 app = create_app()
 
 
 @app.route('/search', methods=['GET'])
 def search():
-    # req = request.get_json()
-    # get_pertinent_doc_by_key(req['key'])
+    # key = request.args.get("key")
+    # if key is None:
+    #     return jsonify(message='ok')
+
+    # get_pertinent_doc_by_key(key)
 
     res = make_test_data()
 
