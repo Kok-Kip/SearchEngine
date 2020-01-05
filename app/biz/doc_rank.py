@@ -1,9 +1,11 @@
 from app.database.document import get_documents_by_ids, get_document_number
-from app.database.word import get_word_by_term
+from app.database.word import get_word_by_term, get_frequent_words, get_words_embedding_byte
 from app.database.wordDocRef import get_word_doc_ref_by_word_id
+from app.biz.embedding import get_embedding
 import math
 import jieba
 from typing import Dict
+import numpy as np
 
 # const parameters for bm25
 k1 = 2
@@ -34,10 +36,11 @@ def get_score_of_document(seg) -> Dict[int, float]:
     w2 = 0.3
     w3 = 0.4
 
-    # 计算 tiidf
+    # calculate tiidf
     tfidf = get_score(seg, w1, True)
-    # 计算 bm25
+    # calculate bm25
     bm25 = get_score(seg, w2, False)
+    # calculate embedding
     emb = get_score_embedding(seg)
 
     add_dict(tfidf, bm25)
@@ -81,8 +84,24 @@ def calculate_score(term, weight, score_type=True) -> Dict[int, float]:
 
 
 def get_score_embedding(seg):
-    # TODO
-    return 0
+    score = {}
+    all_high_frequency_word_list = get_frequent_words(3)
+    # for each document, calculate similarity
+    for document_id, word_list in all_high_frequency_word_list.items():
+        count = 0
+        emb_list = get_words_embedding_byte(word_list)
+        document_score = 0
+        for s in seg:
+            s_emb = get_embedding(s)
+            if s_emb is None:
+                continue
+            for emb in emb_list:
+                count += 1
+                cos = calculate_cosine_similarity(s_emb, emb)
+                document_score += cos
+        document_score /= count
+        score[document_id] = document_score
+    return score
 
 
 def add_dict(x, y):
@@ -91,3 +110,18 @@ def add_dict(x, y):
             y[k] += v
         else:
             y[k] = v
+
+def calculate_cosine_similarity(a, b):
+    if a is None:
+        print('a is None')
+        return
+    if b is None:
+        print('b is None')
+        return
+    vector_a = np.mat(a)
+    vector_b = np.mat(b)
+    num = float(vector_a * vector_b.T)
+    denom = np.linalg.norm(vector_a) * np.linalg.norm(vector_b)
+    cos = num / denom
+    sim = 0.5 + 0.5 * cos
+    return sim
