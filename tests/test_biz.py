@@ -1,6 +1,5 @@
 import pytest
-from app.biz.doc_rank import add_dict
-
+from app.biz.common import add_dict
 
 def test_add_dict():
     x1 = {"key1": 5, "key2": 8}
