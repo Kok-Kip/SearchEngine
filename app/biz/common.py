@@ -1,3 +1,5 @@
+import numpy as np
+
 def add_dict(x, y):
     for k, v in x.items():
         if k in y.keys():

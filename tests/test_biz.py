@@ -1,6 +1,5 @@
 import pytest
 from app.biz.common import add_dict
-import numpy as np
 
 def test_add_dict():
     x1 = {"key1": 5, "key2": 8}
