@@ -6,7 +6,6 @@ from app.biz.common import *
 import math
 import jieba
 from typing import Dict
-import numpy as np
 
 # const parameters for bm25
 k1 = 2
