@@ -14,8 +14,6 @@ def calculate_cosine_similarity(a, b):
     if b is None:
         print('b is None')
         return
-    print(a.shape)
-    print(b.shape)
     if a.shape != b.shape:
         print('shape not equal!')
         return 

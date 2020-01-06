@@ -19,6 +19,9 @@ def search():
 
     return jsonify(message='ok', data=res)
 
+@app.route('/test', methods=['GET'])
+def test():
+    return jsonify(message='ok')
 
 def make_test_data():
     # 制造假数据

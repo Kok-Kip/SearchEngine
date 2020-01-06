@@ -40,13 +40,15 @@ def get_score_of_document(seg) -> Dict[int, float]:
     w1 = 0.3
     w2 = 0.3
     w3 = 0.4
-    logging.info(f'seg: {seg}')
 
     seg1 = list(seg)
+    if len(seg1) == 0:
+        return dict()
 
     # calculate tiidf
     tfidf = get_score(seg1, w1, True)
     logging.info(f'tfidt score: {tfidf}')
+
     # calculate bm25
     bm25 = get_score(seg1, w2, False)
     logging.info(f'bm25 score: {bm25}')
@@ -66,8 +68,6 @@ def get_score(seg, weight, score_type=True) -> Dict[int, float]:
     score = dict()
     for term in seg:
         score_temp = calculate_score(term, weight, score_type)
-        print(score_type)
-        print(score_temp)
         add_dict(score_temp, score)
     return score
 
@@ -118,6 +118,8 @@ def get_score_embedding(seg, weight):
                 count += 1
                 cos = calculate_cosine_similarity(s_emb, emb)
                 document_score += cos
+        if count == 0:
+            continue
         document_score /= count
         score[document_id] = weight * document_score
     return score
