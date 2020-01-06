@@ -1,18 +1,21 @@
 from app.app import create_app
 from flask import jsonify, request
 
+from app.biz.doc_rank import get_pertinent_doc_by_key
+
 app = create_app()
 
 
 @app.route('/search', methods=['GET'])
 def search():
-    # key = request.args.get("key")
-    # if key is None:
-    #     return jsonify(message='ok')
+    key = request.args.get("key")
+    if key is None:
+        return jsonify(message='ok', data=None)
 
-    # get_pertinent_doc_by_key(key)
-
-    res = make_test_data()
+    docs = get_pertinent_doc_by_key(key)
+    res = dict()
+    for k, v in docs.items():
+        res[k] = v.link
 
     return jsonify(message='ok', data=res)
 

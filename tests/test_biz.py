@@ -1,5 +1,7 @@
 import pytest
-from app.biz.common import *
+import numpy as np
+from app.biz.common import add_dict, calculate_cosine_similarity
+
 
 def test_add_dict():
     x1 = {"key1": 5, "key2": 8}
@@ -14,6 +16,7 @@ def test_add_dict():
     assert y2["key1"] == 6
     assert y2["key2"] == 8
     assert y2["key3"] == 10
+
 
 def test_calculate_cosine_similarity():
     a = np.array([1, 1])
