@@ -40,7 +40,7 @@ def get_frequent_words(k: int):
     logging.info(f'Finish getting the word refs at {time.asctime(time.localtime(time.time()))}')
     words = defaultdict(list)
     for ref in word_refs:
-        if len[words[ref.document_id]] != k:
+        if len(words[ref.document_id]) != k:
             words[ref.document_id].append(ref.word_id)
 
     return words

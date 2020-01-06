@@ -2,6 +2,7 @@ from app.database.document import get_documents_by_ids, get_document_number
 from app.database.word import get_word_by_term, get_frequent_words, get_words_embedding_byte
 from app.database.wordDocRef import get_word_doc_ref_by_word_id
 # from app.biz.embedding import get_embedding
+from app.biz.embedding import get_embedding, bytes2Embedding
 from app.biz.common import *
 import math
 import jieba
@@ -93,7 +94,7 @@ def calculate_score(term, weight, score_type=True) -> Dict[int, float]:
             score[ref.document_id] = weight * (ref.frequency * (k1 + 1) / (ref.frequency + K)) * idf
     return score
 
-
+  
 # def get_score_embedding(seg, weight):
 #     score = {}
 #     all_high_frequency_word_list = get_frequent_words(3)
