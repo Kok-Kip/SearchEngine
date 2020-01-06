@@ -14,6 +14,11 @@ def calculate_cosine_similarity(a, b):
     if b is None:
         print('b is None')
         return
+    print(a.shape)
+    print(b.shape)
+    if a.shape != b.shape:
+        print('shape not equal!')
+        return 
     vector_a = np.mat(a)
     vector_b = np.mat(b)
     num = float(vector_a * vector_b.T)

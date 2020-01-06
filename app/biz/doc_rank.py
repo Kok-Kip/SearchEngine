@@ -1,7 +1,7 @@
 from app.database.document import get_documents_by_ids, get_document_number
 from app.database.word import get_word_by_term, get_frequent_words, get_words_embedding_byte
 from app.database.wordDocRef import get_word_doc_ref_by_word_id
-from app.biz.embedding import get_embedding
+from app.biz.embedding import get_embedding, bytes2Embedding
 from app.biz.common import *
 import math
 import jieba
@@ -97,6 +97,7 @@ def get_score_embedding(seg):
                 continue
             for emb in emb_list:
                 count += 1
+                emb = bytes2Embedding(emb)
                 cos = calculate_cosine_similarity(s_emb, emb)
                 document_score += cos
         document_score /= count
