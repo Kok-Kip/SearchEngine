@@ -11,7 +11,7 @@ def search():
     key = request.args.get("key")
     if key is None:
         return jsonify(message='ok', data=None)
-
+    print(key)
     docs = get_pertinent_doc_by_key(key)
     res = dict()
     for k, v in docs.items():
