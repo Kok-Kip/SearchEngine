@@ -6,6 +6,10 @@ from app.biz.common import *
 import math
 import jieba
 from typing import Dict
+import logging
+
+# 设置 logging 重要性等级
+logging.getLogger().setLevel(logging.INFO)
 
 # const parameters for bm25
 k1 = 2
@@ -38,10 +42,14 @@ def get_score_of_document(seg) -> Dict[int, float]:
 
     # calculate tiidf
     tfidf = get_score(seg, w1, True)
+    logging.info(f'tfidt score: {tfidf}')
     # calculate bm25
     bm25 = get_score(seg, w2, False)
+    logging.info(f'bm25 score: {bm25}')
+
     # calculate embedding
     # emb = get_score_embedding(seg, w3)
+    # logging.info(f'embedding score: {emb}')
 
     add_dict(tfidf, bm25)
     # add_dict(emb, bm25)
