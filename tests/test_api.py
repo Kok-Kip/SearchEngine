@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # coding=utf-8
-from app import app
-import json
-import pytest
+# from app import app
+# import json
+# import pytest
 
 #
 # @pytest.fixture
