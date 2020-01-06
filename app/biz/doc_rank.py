@@ -1,7 +1,7 @@
 from app.database.document import get_documents_by_ids, get_document_number
 from app.database.word import get_word_by_term, get_frequent_words, get_words_embedding_byte
 from app.database.wordDocRef import get_word_doc_ref_by_word_id
-from app.biz.embedding import get_embedding
+# from app.biz.embedding import get_embedding
 from app.biz.common import *
 import math
 import jieba
@@ -41,10 +41,10 @@ def get_score_of_document(seg) -> Dict[int, float]:
     # calculate bm25
     bm25 = get_score(seg, w2, False)
     # calculate embedding
-    emb = get_score_embedding(seg, w3)
+    # emb = get_score_embedding(seg, w3)
 
     add_dict(tfidf, bm25)
-    add_dict(emb, bm25)
+    # add_dict(emb, bm25)
     return bm25
 
 
@@ -59,11 +59,14 @@ def get_score(seg, weight, score_type=True) -> Dict[int, float]:
 
 def calculate_score(term, weight, score_type=True) -> Dict[int, float]:
     score = dict()
-    N = get_document_number()
 
     # 1. find all relevant documents
     word = get_word_by_term(term)
+    if word is None:
+        return score
     word_id = word.id
+
+    N = get_document_number()
 
     word_doc_refs = get_word_doc_ref_by_word_id(word_id)
     n = len(word_doc_refs)
@@ -83,24 +86,22 @@ def calculate_score(term, weight, score_type=True) -> Dict[int, float]:
     return score
 
 
-def get_score_embedding(seg, weight):
-    score = {}
-    all_high_frequency_word_list = get_frequent_words(3)
-    # for each document, calculate similarity
-    for document_id, word_list in all_high_frequency_word_list.items():
-        count = 0
-        emb_list = get_words_embedding_byte(word_list)
-        document_score = 0
-        for s in seg:
-            s_emb = get_embedding(s)
-            if s_emb is None:
-                continue
-            for emb in emb_list:
-                count += 1
-                cos = calculate_cosine_similarity(s_emb, emb)
-                document_score += cos
-        document_score /= count
-        score[document_id] = weight * document_score
-    return score
-
-
+# def get_score_embedding(seg, weight):
+#     score = {}
+#     all_high_frequency_word_list = get_frequent_words(3)
+#     # for each document, calculate similarity
+#     for document_id, word_list in all_high_frequency_word_list.items():
+#         count = 0
+#         emb_list = get_words_embedding_byte(word_list)
+#         document_score = 0
+#         for s in seg:
+#             s_emb = get_embedding(s)
+#             if s_emb is None:
+#                 continue
+#             for emb in emb_list:
+#                 count += 1
+#                 cos = calculate_cosine_similarity(s_emb, emb)
+#                 document_score += cos
+#         document_score /= count
+#         score[document_id] = weight * document_score
+#     return score
