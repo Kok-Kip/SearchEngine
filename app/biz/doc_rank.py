@@ -41,7 +41,7 @@ def get_score_of_document(seg) -> Dict[int, float]:
     # calculate bm25
     bm25 = get_score(seg, w2, False)
     # calculate embedding
-    emb = get_score_embedding(seg)
+    emb = get_score_embedding(seg, w3)
 
     add_dict(tfidf, bm25)
     add_dict(emb, bm25)
@@ -83,7 +83,7 @@ def calculate_score(term, weight, score_type=True) -> Dict[int, float]:
     return score
 
 
-def get_score_embedding(seg):
+def get_score_embedding(seg, weight):
     score = {}
     all_high_frequency_word_list = get_frequent_words(3)
     # for each document, calculate similarity
@@ -100,7 +100,7 @@ def get_score_embedding(seg):
                 cos = calculate_cosine_similarity(s_emb, emb)
                 document_score += cos
         document_score /= count
-        score[document_id] = document_score
+        score[document_id] = weight * document_score
     return score
 
 
