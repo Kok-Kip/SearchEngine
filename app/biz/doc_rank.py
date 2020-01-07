@@ -3,7 +3,7 @@ from app.database.word import get_word_by_term, get_frequent_words, get_words_em
 from app.database.wordDocRef import get_word_doc_ref_by_word_id
 from app.biz.embedding import get_embedding, bytes2Embedding
 from app.biz.common import *
-import math
+
 import jieba
 from typing import Dict
 import logging
