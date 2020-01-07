@@ -1,13 +1,13 @@
 from app.database.document import get_documents_by_ids, get_document_number
 from app.database.word import get_word_by_term, get_frequent_words, get_words_embedding_byte
 from app.database.wordDocRef import get_word_doc_ref_by_word_id
-# from app.biz.embedding import get_embedding
 from app.biz.embedding import get_embedding, bytes2Embedding
 from app.biz.common import *
 import math
 import jieba
 from typing import Dict
 import logging
+import math
 
 # 设置 logging 重要性等级
 logging.getLogger().setLevel(logging.INFO)
@@ -46,15 +46,15 @@ def get_score_of_document(seg) -> Dict[int, float]:
         return dict()
 
     # calculate tiidf
-    tfidf = get_score(seg1, w1, True)
+    tfidf = get_score(seg1, True)
     logging.info(f'tfidt score: {tfidf}')
 
     # calculate bm25
-    bm25 = get_score(seg1, w2, False)
+    bm25 = get_score(seg1, False)
     logging.info(f'bm25 score: {bm25}')
 
     # calculate embedding
-    emb = get_score_embedding(seg1, w3)
+    emb = get_score_embedding(seg1)
     logging.info(f'embedding score: {emb}')
 
     add_dict(tfidf, bm25)
@@ -63,16 +63,17 @@ def get_score_of_document(seg) -> Dict[int, float]:
     return bm25
 
 
-def get_score(seg, weight, score_type=True) -> Dict[int, float]:
+def get_score(seg, score_type=True) -> Dict[int, float]:
     # score_type 为真时用 tfidf 算法, 为假时用 bm25 算法
     score = dict()
     for term in seg:
-        score_temp = calculate_score(term, weight, score_type)
+        score_temp = calculate_score(term, score_type)
         add_dict(score_temp, score)
+    normalize_score(score)
     return score
 
 
-def calculate_score(term, weight, score_type=True) -> Dict[int, float]:
+def calculate_score(term, score_type=True) -> Dict[int, float]:
     score = dict()
 
     # 1. find all relevant documents
@@ -93,15 +94,15 @@ def calculate_score(term, weight, score_type=True) -> Dict[int, float]:
     for ref in word_doc_refs:
         if score_type:
             # score_type 为真时用 tfidf 算法
-            score[ref.document_id] = weight * (ref.frequency / documents[ref.document_id].length) * idf
+            score[ref.document_id] = (ref.frequency / documents[ref.document_id].length) * idf
         else:
             # score_type 为假时用 em25 算法
             K = k1 * (1 - b + b * documents[ref.document_id].length / avgdl)
-            score[ref.document_id] = weight * (ref.frequency * (k1 + 1) / (ref.frequency + K)) * idf
+            score[ref.document_id] = (ref.frequency * (k1 + 1) / (ref.frequency + K)) * idf
     return score
 
   
-def get_score_embedding(seg, weight):
+def get_score_embedding(seg):
     score = {}
     all_high_frequency_word_list = get_frequent_words(3)
     # for each document, calculate similarity
@@ -121,5 +122,24 @@ def get_score_embedding(seg, weight):
         if count == 0:
             continue
         document_score /= count
-        score[document_id] = weight * document_score
+        score[document_id] = document_score
+    normalize_score(score)
     return score
+
+
+def normalize_score(score):
+    length = len(score)
+
+    mean = 0
+    for value in score.values():
+        mean += value
+    mean = mean / length
+
+    variance = 0
+    for value in score.values():
+        variance += math.pow(value - mean, 2)
+
+    variance = math.sqrt(variance / length)
+
+    for k in score.keys():
+        score[k] = (score[k] - mean) / variance
