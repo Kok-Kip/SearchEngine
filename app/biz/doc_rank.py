@@ -23,8 +23,9 @@ def get_pertinent_doc_by_key(query):
     score = get_score_of_document(seg)
     doc_ids = get_best_document_by_score(score, 10)
     docs = get_documents_by_ids(doc_ids)
-    details = get_document_details(docs)
-    return docs
+    details = get_document_details(doc_ids)
+    # docs
+    return details
 
 def get_best_document_by_score(score, k: int):
     items = score.items()

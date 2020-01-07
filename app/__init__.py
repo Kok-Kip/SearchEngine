@@ -11,11 +11,11 @@ def search():
         return jsonify(message='ok', data=None)
 
     from app.biz.doc_rank import get_pertinent_doc_by_key
-    docs = get_pertinent_doc_by_key(key)
-    res = dict()
-    for k, v in docs.items():
-        res[k] = v.link
-
+    # docs = get_pertinent_doc_by_key(key)
+    # res = dict()
+    # for k, v in docs.items():
+    #    res[k] = v.link
+    res = get_pertinent_doc_by_key(key)
     return jsonify(message='ok', data=res)
 
 

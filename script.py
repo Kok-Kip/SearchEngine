@@ -18,14 +18,19 @@ with open(filepath, encoding='utf-8', errors='ignore') as f:
         if line == '\n':
             continue
         head = re.search(r'^<(.*)>(.+)(</.*>)?', line, re.M | re.I)
-        print(line)
-        print(head)
         if head is not None and head.group(1) == 'HEADLINE':
             title = head.group(2)
         if head is not None and head.group(1) == 'DATELINE':
             date = head.group(2)
         if line[0] != '<':
-            text = text + line
+            h = re.search(r'^(.+)</(.*)>', line, re.M | re.I)
+            if h:
+                if h.group(2) == 'HEADLINE':
+                    title = h.group(1)
+                elif h.group(2) == 'DATELINE':
+                    date = h.group(1)
+            else:
+                text = text + line
 
 print(f'Title: {title}')
 print(f'Date: {date}')
