@@ -18,19 +18,25 @@ This is the backend project of Mini Search Engine.
    cd backend
    ```
    
-2. Download data and unzip it. Rename the folder as `data` and place it in the root directory of this project. In this folder, it contains documents, embedding model and etc.
+2. Download data and unzip it. Copy everything in this folder to `data/` in project. Make sure not to overwrite the `data/directory` .
 
    Google Drive: [Here](https://drive.google.com/open?id=1Y72TnaaSDWhSPBSQmMD4TjNzgO3JNf-f)
    
    BaiduYun: [Here](https://pan.baidu.com/s/1UcqWrrHqSU7azxWdeviJjg)
 
-3. If this is the first time you run this project on your machine, please create a MySQL database named `search_engine`, and run a script to create tables.
+3. If this is the first time you run this project on your machine, **please((:
+
+   + create a MySQL database named `search_engine`. 
+
+   + Edit `config.py` in `app/database/`, use your`USERNAME` and `PASSWORD` in local database.
+
+   + And run a script to create tables in your database and parse txt files.
 
    ```bash
    python Preprocess.py
    ```
 
-   By running this command, we will initialize a dictionary on you local database, which can provide query information when a searching is required!
+   By running this command, we will initialize a dictionary on you local database, which can provide query information when searching.
 
 4. run this server by:
 
