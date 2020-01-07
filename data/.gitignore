@@ -1,0 +1,5 @@
+DATA-UNICODE/
+*.db3
+stopwords_cn.txt
+test.bin
+test.bin.vectors.npy
