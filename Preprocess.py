@@ -60,7 +60,7 @@ def stno2Txt():
         dd = dr.sub('', page)
 
         fname = 'data/directory' + '/' + line4 + '.txt'  # file path
-        f = open(fname, 'w+', encoding=encoding)
+        f = open(fname, 'w+', encoding="utf-8")
         f.write(dd)
 
 

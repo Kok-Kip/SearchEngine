@@ -1,4 +1,29 @@
 import numpy as np
+import re
+
+
+def parseFile(filepath):
+    print(filepath)
+    title = ''
+    date = ''
+    text = ''
+    with open(filepath, encoding='utf-8', errors='ignore') as f:
+        for line in f.readlines():
+            if line == '\n':
+                continue
+            head = re.search(r'^<(.*)>(.+)(</.*>)?', line, re.M | re.I)
+            if head is not None and head.group(1) == 'HEADLINE':
+                title = head.group(2)
+            if head is not None and head.group(1) == 'DATELINE':
+                date = head.group(2)
+            if line[0] != '<':
+                text = text + line
+
+    print(f'Title: {title}')
+    print(f'Date: {date}')
+    print(f'Text: {text}')
+    return title, date, text
+
 
 def add_dict(x, y):
     for k, v in x.items():
@@ -6,6 +31,7 @@ def add_dict(x, y):
             y[k] += v
         else:
             y[k] = v
+
 
 def calculate_cosine_similarity(a, b):
     if a is None:
@@ -16,7 +42,7 @@ def calculate_cosine_similarity(a, b):
         return
     if a.shape != b.shape:
         print('shape not equal!')
-        return 
+        return
     vector_a = np.mat(a)
     vector_b = np.mat(b)
     num = float(vector_a * vector_b.T)

@@ -1,4 +1,4 @@
-from app.database.document import get_documents_by_ids, get_document_number
+from app.database.document import get_documents_by_ids, get_document_number, get_document_details
 from app.database.word import get_word_by_term, get_frequent_words, get_words_embedding_byte
 from app.database.wordDocRef import get_word_doc_ref_by_word_id
 from app.biz.embedding import get_embedding, bytes2Embedding
@@ -23,8 +23,8 @@ def get_pertinent_doc_by_key(query):
     score = get_score_of_document(seg)
     doc_ids = get_best_document_by_score(score, 10)
     docs = get_documents_by_ids(doc_ids)
+    details = get_document_details(docs)
     return docs
-
 
 def get_best_document_by_score(score, k: int):
     items = score.items()
