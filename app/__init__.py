@@ -1,8 +1,6 @@
 from app.app import create_app
 from flask import jsonify, request
 
-from app.biz.doc_rank import get_pertinent_doc_by_key
-
 app = create_app()
 
 
@@ -11,7 +9,8 @@ def search():
     key = request.args.get("key")
     if key is None:
         return jsonify(message='ok', data=None)
-    print(key)
+
+    from app.biz.doc_rank import get_pertinent_doc_by_key
     docs = get_pertinent_doc_by_key(key)
     res = dict()
     for k, v in docs.items():
@@ -19,9 +18,11 @@ def search():
 
     return jsonify(message='ok', data=res)
 
+
 @app.route('/test', methods=['GET'])
 def test():
     return jsonify(message='ok')
+
 
 def make_test_data():
     # 制造假数据
