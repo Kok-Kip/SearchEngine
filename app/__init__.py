@@ -1,21 +1,26 @@
 from app.app import create_app
 from flask import jsonify, request
 
+import time
+import logging
+
+# 设置 logging 重要性等级
+logging.getLogger().setLevel(logging.INFO)
+
 app = create_app()
 
 
 @app.route('/search', methods=['GET'])
 def search():
+    start_time = time.time()
     key = request.args.get("key")
     if key is None:
         return jsonify(message='ok', data=None)
 
     from app.biz.doc_rank import get_pertinent_doc_by_key
-    # docs = get_pertinent_doc_by_key(key)
-    # res = dict()
-    # for k, v in docs.items():
-    #    res[k] = v.link
     res = get_pertinent_doc_by_key(key)
+    during_time = time.time() - start_time
+    logging(f'the query {key} has spent {during_time}s')
     return jsonify(message='ok', data=res)
 
 
