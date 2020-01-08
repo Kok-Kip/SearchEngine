@@ -3,7 +3,7 @@
 
 ## Intro
 
-This is the backend project of Mini Search Engine.
+This is the backend project of Mini Search Engine. We are so sorry about not deploying this service on remote server now, we promise this is our priority in the next few weeks.
 
 ## Environment
 
