@@ -20,7 +20,7 @@ def search():
     from app.biz.doc_rank import get_pertinent_doc_by_key
     res = get_pertinent_doc_by_key(key)
     during_time = time.time() - start_time
-    logging(f'the query {key} has spent {during_time}s')
+    logging.info(f'the query {key} has spent {during_time}s')
     return jsonify(message='ok', data=res)
 
 
