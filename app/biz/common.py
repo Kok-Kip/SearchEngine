@@ -3,7 +3,7 @@ import re
 
 
 def parseFile(filepath):
-    print(filepath)
+    # print(filepath)
     title = ''
     date = ''
     text = ''
@@ -26,9 +26,9 @@ def parseFile(filepath):
                 else:
                     text = text + line
 
-    print(f'Title: {title}')
-    print(f'Date: {date}')
-    print(f'Text: {text}')
+    # print(f'Title: {title}')
+    # print(f'Date: {date}')
+    # print(f'Text: {text}')
     return title, date, text
 
 
