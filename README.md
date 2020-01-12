@@ -18,7 +18,7 @@ This is the backend project of Mini Search Engine. We are so sorry about not dep
    cd backend
    ```
    
-2. Download data and unzip it. Copy everything in this folder to `data/` in project. Make sure not to overwrite the `data/directory` .
+2. Download data and unzip it. Rename this folder as `data` , and move it in project. 
 
    Google Drive: [Here](https://drive.google.com/open?id=1Y72TnaaSDWhSPBSQmMD4TjNzgO3JNf-f)
    
