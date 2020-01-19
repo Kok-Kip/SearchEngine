@@ -53,4 +53,5 @@ This is the backend project of Mini Search Engine. We are so sorry about not dep
 
 ## Documents
 
-1. [Mini Search Engine Design Doc](
+1. [Mini Search Engine Design Doc](https://github.com/Kok-Kip/backend/blob/master/Mini%20Search%20Engine%20Design%20Doc.md)
+
