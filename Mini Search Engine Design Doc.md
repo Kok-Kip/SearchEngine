@@ -123,8 +123,6 @@ Total Words: 9, 242
 | 600, 000      | 910           | 9.85%        |
 | 700, 000      | 828           | 8.96%        |
 
-
-
 ---
 
 ## Reference
@@ -136,4 +134,4 @@ Total Words: 9, 242
 5. [Word Embeddings in Python with Spacy and Gensim](https://www.shanelynn.ie/word-embeddings-in-python-with-spacy-and-gensim/)
 6. [Flask SQLAlchemy](https://www.cnblogs.com/fu-yong/p/9183951.html)
 7. [Gensim Usage](https://www.jianshu.com/p/bba1bf9518dc)
-
+8. [Deplog Flask Project on Remote Server](https://www.cnblogs.com/noKing/p/8149817.html)
