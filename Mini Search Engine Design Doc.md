@@ -123,6 +123,10 @@ Total Words: 9, 242
 | 600, 000      | 910           | 9.85%        |
 | 700, 000      | 828           | 8.96%        |
 
+## Remote Deploy
+
+I deploy this service on a remote machine, with a seperate database server. For convenience, I just run this service directly, without using docker container.
+
 ---
 
 ## Reference
