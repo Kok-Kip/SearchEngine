@@ -4,7 +4,7 @@ from flask import jsonify, request
 import time
 import logging
 
-# 设置 logging 重要性等级
+# set logging level
 logging.getLogger().setLevel(logging.INFO)
 
 app = create_app()

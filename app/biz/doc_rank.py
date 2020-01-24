@@ -137,7 +137,8 @@ def get_score_embedding(seg):
 
 def normalize_score(score):
     length = len(score)
-
+    if length == 0:
+        return dict()
     mean = 0
     for value in score.values():
         mean += value
