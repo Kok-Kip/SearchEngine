@@ -1,5 +1,6 @@
 from app.app import create_app
 from flask import jsonify, request
+from app.remote.aliyun_caller import get_token, get_text
 
 import time
 import logging
@@ -28,6 +29,20 @@ def search():
 def test():
     return jsonify(message='ok')
 
+@app.route('/test_api', methods=['POST'])
+def test_api():
+    file = request.files.get('file')
+    print(file)
+    data = file.read()
+    print(type(data))
+    if len(data) == 0:
+        return jsonify(message='error', data='')
+
+    audioFile = data
+    result = get_text(audioFile)
+
+    # result = "hhh"
+    return jsonify(message='ok', data=result)
 
 def make_test_data():
     # 制造假数据
