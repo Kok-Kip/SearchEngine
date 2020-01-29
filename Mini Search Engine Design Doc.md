@@ -139,3 +139,5 @@ I deploy this service on a remote machine, with a seperate database server. For 
 6. [Flask SQLAlchemy](https://www.cnblogs.com/fu-yong/p/9183951.html)
 7. [Gensim Usage](https://www.jianshu.com/p/bba1bf9518dc)
 8. [Deplog Flask Project on Remote Server](https://www.cnblogs.com/noKing/p/8149817.html)
+9. [Redis Installation on Windows](https://blog.csdn.net/u013594528/article/details/80831115)
+10. [Redis with Flask](https://blog.csdn.net/weixin_41762173/article/details/86679601)
