@@ -8,3 +8,4 @@ pytest-cov
 pymysql
 gensim
 flask-redis
+aliyun-python-sdk-core==2.13.3
