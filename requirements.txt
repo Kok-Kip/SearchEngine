@@ -7,4 +7,4 @@ pytest
 pytest-cov
 pymysql
 gensim
-FlaskRedis
+flask-redis
