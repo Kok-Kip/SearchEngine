@@ -1,7 +1,6 @@
 from app.app import create_app
 from flask import jsonify, request
 from app.remote.aliyun_caller import get_token, get_text
-
 import time
 import logging
 
@@ -43,6 +42,11 @@ def test_api():
 
     # result = "hhh"
     return jsonify(message='ok', data=result)
+
+@app.route('/test_redis', methods=['GET'])
+def test_redis():
+    token = get_token()
+    return jsonify(message='ok', data=token)
 
 def make_test_data():
     # 制造假数据
