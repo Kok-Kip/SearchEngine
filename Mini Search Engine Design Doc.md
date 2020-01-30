@@ -140,8 +140,9 @@ I deploy this service on a remote machine, with a seperate database server. For 
 7. [Gensim Usage](https://www.jianshu.com/p/bba1bf9518dc)
 8. [Deplog Flask Project on Remote Server](https://www.cnblogs.com/noKing/p/8149817.html)
 9. [Redis Installation on Windows](https://blog.csdn.net/u013594528/article/details/80831115)
-10. [Redis with Flask](https://blog.csdn.net/weixin_41762173/article/details/86679601)
-11. [Redis-Py Documentation](https://redis-py.readthedocs.io/en/latest/)
-12. [AliCloud Access Token](https://help.aliyun.com/document_detail/72153.html)
-13. [FlaskRedis -- Github](https://github.com/underyx/flask-redis)
+10. [Redis Installation on Linux](https://createdpro.com/a/100008)
+11. [Redis with Flask](https://blog.csdn.net/weixin_41762173/article/details/86679601)
+12. [Redis-Py Documentation](https://redis-py.readthedocs.io/en/latest/)
+13. [AliCloud Access Token](https://help.aliyun.com/document_detail/72153.html)
+14. [FlaskRedis -- Github](https://github.com/underyx/flask-redis)
 
