@@ -4,17 +4,13 @@ from app.redis import redis_client
 import logging
 import graypy
 import os
+from app.config import config
 
-
-def create_app(config=None):
+def create_app():
     app = Flask(__name__)
-    app.config.from_pyfile('database/config.py')
-    if isinstance(config, dict):
-        app.config.update(config)
-    elif config:
-        app.config.from_pyfile(os.path.realpath(config))
+    app.config.from_object(config)
     app.after_request(after_request)
-    app.config['REDIS_URL'] = 'redis://localhost:6379/0'
+    # app.config['REDIS_URL'] = 'redis://localhost:6379/0'
     db.init_app(app)
     db.app = app
     redis_client.init_app(app)
