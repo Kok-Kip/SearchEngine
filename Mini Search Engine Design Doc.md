@@ -146,3 +146,4 @@ I deploy this service on a remote machine, with a seperate database server. For 
 13. [AliCloud Access Token](https://help.aliyun.com/document_detail/72153.html)
 14. [FlaskRedis -- Github](https://github.com/underyx/flask-redis)
 15. [Graylog Usage](https://blog.csdn.net/z497896143/article/details/81912001)
+16. [graypy Documentation](https://pypi.org/project/graypy/)

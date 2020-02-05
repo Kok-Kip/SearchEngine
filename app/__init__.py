@@ -1,52 +1,48 @@
-from app.app import create_app
+from app.app import create_app, init_logger
+
+logger = init_logger()
+
 from flask import jsonify, request
 from app.remote.aliyun_caller import get_token, get_text
 import time
-import logging
 
-# set logging level
-logging.getLogger().setLevel(logging.INFO)
 
 app = create_app()
 
 
 @app.route('/search', methods=['GET'])
 def search():
+    logger.info(f'[API] search start')
     start_time = time.time()
     key = request.args.get("key")
     if key is None:
-        return jsonify(message='ok', data=None)
+        logger.info(f'[API] key is empty')
+        logger.info(f'[API] search finish ')
+        return jsonify(message='key is none', data=None)
 
     from app.biz.doc_rank import get_pertinent_doc_by_key
     res = get_pertinent_doc_by_key(key)
     during_time = time.time() - start_time
-    logging.info(f'the query {key} has spent {during_time}s')
+    logger.info(f'the query {key} has spent {during_time}s')
+    logger.info(f'[API] search finish')
     return jsonify(message='ok', data=res)
+
+
+@app.route('/voice', methods=['POST'])
+def voice():
+    file = request.files.get('file')
+    data = file.read()
+    if len(data) == 0:
+        return jsonify(message='error', data='')
+
+    result = get_text(data)
+    return jsonify(message='ok', data=result)
 
 
 @app.route('/test', methods=['GET'])
 def test():
     return jsonify(message='ok')
 
-@app.route('/test_api', methods=['POST'])
-def test_api():
-    file = request.files.get('file')
-    print(file)
-    data = file.read()
-    print(type(data))
-    if len(data) == 0:
-        return jsonify(message='error', data='')
-
-    audioFile = data
-    result = get_text(audioFile)
-
-    # result = "hhh"
-    return jsonify(message='ok', data=result)
-
-@app.route('/test_redis', methods=['GET'])
-def test_redis():
-    token = get_token()
-    return jsonify(message='ok', data=token)
 
 def make_test_data():
     # 制造假数据

@@ -2,17 +2,18 @@
 from aliyunsdkcore.client import AcsClient
 from aliyunsdkcore.request import CommonRequest
 from app.redis.redis_handler import get, set
-
+from app import logger
 import http.client
 import json
 import time
 
 def get_token():
     # find in redis
+    logger.info('get_token start')
     token = get('token')
     if token is not None:
         token = json.loads(str(token, encoding='utf-8'))
-        print(token)
+        logger.info(f'get token from redis{token}')
         expire_time = token['ExpireTime']
         present_time = time.time()
         if expire_time > int(present_time):
@@ -22,9 +23,11 @@ def get_token():
     token_str = json.dumps(token)
     token_bytes = bytes(token_str, encoding="utf-8")
     set('token', token_bytes)
+    logger.info(f'get_token finish, token: {token}')
     return token['Id']
 
 def get_token_remote():
+    logger.info('get_token_remote start')
     # Create AcsClient
     client = AcsClient(
         "LTAI4FvbUkbyYDQ6PZY13Hin",
@@ -42,11 +45,12 @@ def get_token_remote():
     # bytes to json
     res_str = str(response, 'utf-8')
     res = json.loads(res_str)
-    print(res['Token'])
+    logger.info(f'get_token_remote finish, response: {res}')
     return res['Token']
 
 
 def get_text(audioFile):
+    logger.info('get_text start')
     appKey = 'oIO7nqiFIunoSK4F'
     # API address
     url = 'http://nls-gateway.cn-shanghai.aliyuncs.com/stream/v1/asr'
@@ -66,7 +70,7 @@ def get_text(audioFile):
         request = request + '&enable_inverse_text_normalization=' + 'true'
     if enableVoiceDetection:
         request = request + '&enable_voice_detection=' + 'true'
-    print('Request: ' + request)
+    logger.info('Request: ' + request)
 
     token = get_token()
     result = process(request, token['Id'], audioFile)
@@ -85,21 +89,19 @@ def process(request, token, audioFile):
     conn = http.client.HTTPConnection(host)
     conn.request(method='POST', url=request, body=audioFile, headers=httpHeaders)
     response = conn.getresponse()
-    print('Response status and response reason:')
-    print(response.status, response.reason)
+    logger.info(f'Response status: {response.status}, response reason: {response.reason}')
     body = response.read()
     try:
-        print('Recognize response is:')
         body = json.loads(body)
-        print(body)
+        logger.info(f'Recognize response is: {body}')
         status = body['status']
         if status == 20000000:
             result = body['result']
-            print('Recognize result: ' + result)
+            logger.info(f'Recognize result: {result}')
             return result
         else:
-            print('Recognizer failed!')
+            logger.error('Recognizer failed!')
             return ""
     except ValueError:
-        print('The response is not json format string')
+        logger.error('The response is not json format string')
     conn.close()

@@ -1,9 +1,8 @@
 import numpy as np
 import re
-
+from app import logger
 
 def parseFile(filepath):
-    # print(filepath)
     title = ''
     date = ''
     text = ''
@@ -25,10 +24,6 @@ def parseFile(filepath):
                         date = h.group(1)
                 else:
                     text = text + line
-
-    # print(f'Title: {title}')
-    # print(f'Date: {date}')
-    # print(f'Text: {text}')
     return title, date, text
 
 
@@ -42,13 +37,13 @@ def add_dict(x, y):
 
 def calculate_cosine_similarity(a, b):
     if a is None:
-        print('a is None')
+        logger.error('a is None')
         return
     if b is None:
-        print('b is None')
+        logger.error('b is None')
         return
     if a.shape != b.shape:
-        print('shape not equal!')
+        logger.error(f'shape not equal! a.shape: {a.shape}, b.shape: {b.shape}')
         return
     vector_a = np.mat(a)
     vector_b = np.mat(b)

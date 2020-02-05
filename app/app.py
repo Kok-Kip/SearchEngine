@@ -1,6 +1,8 @@
 from flask import Flask
 from app.database import db
 from app.redis import redis_client
+import logging
+import graypy
 import os
 
 
@@ -24,3 +26,12 @@ def after_request(resp):
     resp.headers['Access-Control-Allow-Origin'] = '*'
     resp.headers['Access-Control-Allow-Headers'] = '*'
     return resp
+
+
+def init_logger():
+    # init logger for Graylog
+    logger = logging.getLogger()
+    logger.setLevel(logging.INFO)
+    handler = graypy.GELFUDPHandler('localhost', 12201)
+    logger.addHandler(handler)
+    return logger

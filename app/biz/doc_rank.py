@@ -3,15 +3,12 @@ from app.database.word import get_word_by_term, get_frequent_words, get_words_em
 from app.database.wordDocRef import get_word_doc_ref_by_word_id
 from app.biz.embedding import get_embedding, bytes2Embedding
 from app.biz.common import *
-
+from app import logger
 import jieba
 from typing import Dict
-import logging
 import math
 import time
 
-# 设置 logging 重要性等级
-logging.getLogger().setLevel(logging.INFO)
 
 # const parameters for bm25
 k1 = 2
@@ -23,10 +20,9 @@ def get_pertinent_doc_by_key(query):
     seg = jieba.cut_for_search(query)
     score = get_score_of_document(seg)
     doc_ids = get_best_document_by_score(score, 10)
-    docs = get_documents_by_ids(doc_ids)
     details = get_document_details(doc_ids)
-    # docs
     return details
+
 
 def get_best_document_by_score(score, k: int):
     items = score.items()
@@ -50,24 +46,24 @@ def get_score_of_document(seg) -> Dict[int, float]:
     # calculate tiidf
     start_time = time.time()
     tfidf = get_score(seg1, True)
-    logging.info(f'tfidt score: {tfidf}')
-    logging.info(f'tfidt algorithm spent {time.time() - start_time}s')
+    logger.info(f'tfidt score: {tfidf}')
+    logger.info(f'tfidt algorithm spent {time.time() - start_time}s')
 
     # calculate bm25
     start_time = time.time()
     bm25 = get_score(seg1, False)
-    logging.info(f'bm25 score: {bm25}')
-    logging.info(f'bm25 algorithm spent {time.time() - start_time}s')
+    logger.info(f'bm25 score: {bm25}')
+    logger.info(f'bm25 algorithm spent {time.time() - start_time}s')
 
     # calculate embedding
     start_time = time.time()
     emb = get_score_embedding(seg1)
-    logging.info(f'embedding score: {emb}')
-    logging.info(f'embedding algorithm spent {time.time() - start_time}s')
+    logger.info(f'embedding score: {emb}')
+    logger.info(f'embedding algorithm spent {time.time() - start_time}s')
 
     add_dict(tfidf, bm25)
     add_dict(emb, bm25)
-    logging.info(f'total score: {bm25}')
+    logger.info(f'total score: {bm25}')
     return bm25
 
 

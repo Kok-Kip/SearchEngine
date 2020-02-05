@@ -1,12 +1,10 @@
 from app.database.models import Word, WordDocRef
 from app.database import db
-
+from app import logger
 from collections import defaultdict
 import logging
 import time
 
-# 设置 logging 重要性等级
-logging.getLogger().setLevel(logging.INFO)
 
 
 def create_word(term, embedding):
@@ -35,9 +33,9 @@ def is_word_existed(term):
 
 
 def get_frequent_words(k: int):
-    logging.info(f'Starting to get the word refs at {time.asctime(time.localtime(time.time()))}')
+    logger.info(f'Starting to get the word refs at {time.asctime(time.localtime(time.time()))}')
     word_refs = db.session.query(WordDocRef).order_by(WordDocRef.frequency.desc()).all()
-    logging.info(f'Finish getting the word refs at {time.asctime(time.localtime(time.time()))}')
+    logger.info(f'Finish getting the word refs at {time.asctime(time.localtime(time.time()))}')
     words = defaultdict(list)
     for ref in word_refs:
         if len(words[ref.document_id]) != k:
