@@ -11,5 +11,6 @@ class BaseConfig:
     SQLALCHEMY_POOL_SIZE = os.getenv('SQLALCHEMY_POOL_SIZE', 10)
     SQLALCHEMY_MAX_OVERFLOW = os.getenv('SQLALCHEMY_MAX_OVERFLOW', 5)
     REDIS_URL = os.getenv('REDIS_URL', 'redis://127.0.0.1:6379/0')
+    GRAYLOG_HOST = os.getenv('GRAYLOG_HOST', 'localhost')
 
 config = BaseConfig

@@ -28,6 +28,6 @@ def init_logger():
     # init logger for Graylog
     logger = logging.getLogger()
     logger.setLevel(logging.INFO)
-    handler = graypy.GELFUDPHandler('localhost', 12201)
+    handler = graypy.GELFUDPHandler(config.GRAYLOG_HOST, 12201)
     logger.addHandler(handler)
     return logger
