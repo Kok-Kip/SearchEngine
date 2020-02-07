@@ -2,6 +2,7 @@
 from aliyunsdkcore.client import AcsClient
 from aliyunsdkcore.request import CommonRequest
 from app.redis.redis_handler import get, set
+from app.config import config
 from app import logger
 import http.client
 import json
@@ -30,8 +31,8 @@ def get_token_remote():
     logger.info('get_token_remote start')
     # Create AcsClient
     client = AcsClient(
-        "LTAI4FvbUkbyYDQ6PZY13Hin",
-        "AGSS25KHDLyyDe5QIoiZqLgUqGRENi",
+        config.ACCESS_KEY,
+        config.ACCESS_SECRET,
         "cn-shanghai"
     );
     # Create request and set Params
@@ -51,7 +52,7 @@ def get_token_remote():
 
 def get_text(audioFile):
     logger.info('get_text start')
-    appKey = 'oIO7nqiFIunoSK4F'
+    appKey = config.APP_KEY
     # API address
     url = 'http://nls-gateway.cn-shanghai.aliyuncs.com/stream/v1/asr'
     format = 'pcm'
@@ -73,7 +74,8 @@ def get_text(audioFile):
     logger.info('Request: ' + request)
 
     token = get_token()
-    result = process(request, token['Id'], audioFile)
+    logger.info(f'token is {token}')
+    result = process(request, token, audioFile)
     return result
 
 

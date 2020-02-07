@@ -4,6 +4,7 @@ import os
 class BaseConfig:
     ACCESS_KEY = os.getenv('ACCESS_KEY')
     ACCESS_SECRET = os.getenv('ACCESS_SECRET')
+    APP_KEY = os.getenv('APP_KEY')
     SQLALCHEMY_DATABASE_URI = os.getenv('SQLALCHEMY_DATABASE_URI',
                                         'mysql+pymysql://root:******@127.0.0.1:3306/search_engine?charset=utf8')
     SQLALCHEMY_COMMIT_ON_TEARDOWN = os.getenv('SQLALCHEMY_COMMIT_ON_TEARDOWN', True)
